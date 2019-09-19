@@ -24,8 +24,8 @@ int det(int **A, int n){
 
 	for(int i=0; i<n; i++){
 		int **C;
-		C = (int**)malloc(n*sizeof(int*));
-		for(int ii=0; ii<n; ii++)C[ii] = (int*)malloc(n*sizeof(int));
+		C = (int**)malloc((n-1)*sizeof(int*));
+		for(int ii=0; ii<n; ii++)C[ii] = (int*)malloc((n-1)*sizeof(int));
 
 		int ai=1, aj=0, ci=0, cj=0;
 		while(ci<(n-1)){
@@ -45,12 +45,52 @@ int det(int **A, int n){
 }
 
 void transpose(int **A, int **A_t, int n){
+	A_t = (int**)malloc(n*sizeof(int*));
+	for(int i=0; i<n; i++)A_t[i] = (int*)malloc(n*sizeof(int));
 
+	for(int i=0; i<n; i++)
+		for(int j=0; j<n; j++)
+			A_t[i][j] = A[j][i];
+}
+
+void adjoint(int **A, int **adj_A, int n){
+	adj_A = (int**)malloc(n*sizeof(int*));
+	for(int i=0; i<n; i++)adj_A[i] = (int*)malloc(n*sizeof(int));
+
+	for(int i=0; i<n; i++)
+		for(int j=0; j<n; j++){
+			int **C;
+			C = (int**)malloc((n-1)*sizeof(int*));
+			for(int ii=0; ii<n; ii++)C[ii] = (int*)malloc((n-1)*sizeof(int));
+
+			int ai=0, aj=0, ci=0, cj=0;
+			while(ci<(n-1)){
+				if(ai==i)ai++;
+				aj = 0; cj = 0;
+				while(cj<(n-1)){
+					if(aj == j)aj++;
+					C[ci][cj] = A[ai][aj];
+					cj++; aj++;
+				}
+				ai++; ci++;
+			}
+
+			adj_A[i][j] = det(C, n-1);
+		}
+
+	int **adj_A_t;
+	transpose(adj_A, adj_A_t, n);
+
+	for(int i=0; i<n; i++)
+		for(int j=0; j<n; j++)
+			adj_A[i][j] = adj_A_t[i][j];
 }
 
 void invert(int **key, int **key_inv, int n){
 	key_inv = (int**)malloc(n*sizeof(int*));
 	for(int i=0; i<n; i++)key_inv[i] = (int*)malloc(n*sizeof(int));
+
+	int **adj_key;
 }
 
 void decrypt(int *block, int **key, int n){
