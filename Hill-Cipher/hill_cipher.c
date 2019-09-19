@@ -17,8 +17,40 @@ void encrypt(int *block, int **key, int n){
 	}
 }
 
-void invert(int **key, int **key_inv){
+int det(int **A, int n){
+	if(n==1)return A[0][0];
 
+	int val = 0;
+
+	for(int i=0; i<n; i++){
+		int **C;
+		C = (int**)malloc(n*sizeof(int*));
+		for(int ii=0; ii<n; ii++)C[ii] = (int*)malloc(n*sizeof(int));
+
+		int ai=1, aj=0, ci=0, cj=0;
+		while(ci<(n-1)){
+			aj = 0; cj = 0;
+			while(cj<(n-1)){
+				if(aj == i)aj++;
+				C[ci][cj] = A[ai][aj];
+				cj++; aj++;
+			}
+			ai++; ci++;
+		}
+
+		val += A[0][i] * det(C, n-1);
+	}
+
+	return val;
+}
+
+void transpose(int **A, int **A_t, int n){
+
+}
+
+void invert(int **key, int **key_inv, int n){
+	key_inv = (int**)malloc(n*sizeof(int*));
+	for(int i=0; i<n; i++)key_inv[i] = (int*)malloc(n*sizeof(int));
 }
 
 void decrypt(int *block, int **key, int n){
