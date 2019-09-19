@@ -19,9 +19,13 @@ void encrypt(int *block, int **key, int n){
 
 int det(int **A, int n){
 	if(n==1)return A[0][0];
+	if(n==2){
+		return A[0][0]*A[1][1] - A[0][1]*A[1][0];
+	}
 
 	int val = 0;
 
+	int sgn = 1;
 	for(int i=0; i<n; i++){
 		int **C;
 		C = (int**)malloc((n-1)*sizeof(int*));
@@ -38,32 +42,28 @@ int det(int **A, int n){
 			ai++; ci++;
 		}
 
-		val += A[0][i] * det(C, n-1);
+		val += sgn * A[0][i] * det(C, n-1);
+		sgn = -sgn;
 	}
 
 	return val;
 }
 
 void transpose(int **A, int **A_t, int n){
-	A_t = (int**)malloc(n*sizeof(int*));
-	for(int i=0; i<n; i++)A_t[i] = (int*)malloc(n*sizeof(int));
-
 	for(int i=0; i<n; i++)
 		for(int j=0; j<n; j++)
 			A_t[i][j] = A[j][i];
 }
 
 void adjoint(int **A, int **adj_A, int n){
-	adj_A = (int**)malloc(n*sizeof(int*));
-	for(int i=0; i<n; i++)adj_A[i] = (int*)malloc(n*sizeof(int));
-
+	int sgn = 1;
 	for(int i=0; i<n; i++)
 		for(int j=0; j<n; j++){
 			int **C;
 			C = (int**)malloc((n-1)*sizeof(int*));
 			for(int ii=0; ii<n; ii++)C[ii] = (int*)malloc((n-1)*sizeof(int));
 
-			int ai=0, aj=0, ci=0, cj=0;
+			int ai=0, aj=0, ci=0, cj=0; 
 			while(ci<(n-1)){
 				if(ai==i)ai++;
 				aj = 0; cj = 0;
@@ -75,10 +75,13 @@ void adjoint(int **A, int **adj_A, int n){
 				ai++; ci++;
 			}
 
-			adj_A[i][j] = det(C, n-1);
+			adj_A[i][j] = det(C, n-1) * sgn;
+			sgn = -sgn;
 		}
 
 	int **adj_A_t;
+	adj_A_t = (int**)malloc(n*sizeof(int*));
+	for(int i=0; i<n; i++)adj_A_t[i] = (int*)malloc(n*sizeof(int));
 	transpose(adj_A, adj_A_t, n);
 
 	for(int i=0; i<n; i++)
@@ -86,11 +89,49 @@ void adjoint(int **A, int **adj_A, int n){
 			adj_A[i][j] = adj_A_t[i][j];
 }
 
-void invert(int **key, int **key_inv, int n){
-	key_inv = (int**)malloc(n*sizeof(int*));
-	for(int i=0; i<n; i++)key_inv[i] = (int*)malloc(n*sizeof(int));
+int gcd_e(int a, int b, int *x, int *y){ 
+    if (a == 0) { 
+        *x = 0, *y = 1; 
+        return b; 
+    } 
+  
+    int x1, y1; 
+    int gcd = gcd_e(b%a, a, &x1, &y1); 
+ 
+    *x = y1 - (b/a) * x1; 
+    *y = x1; 
+  
+    return gcd; 
+} 
 
+int mod_inverse(int a, int m){ 
+    int x, y; 
+    int g = gcd_e(a, m, &x, &y); 
+    int res = (x%m + m) % m; 
+    return res;
+} 
+
+void invert(int **key, int **key_inv, int n){
 	int **adj_key;
+	int det_key = det(key, n) % 26;
+	det_key = mod_inverse(det_key, 26);
+
+	adj_key = (int**)malloc(n*sizeof(int*));
+	for(int i=0; i<n; i++)adj_key[i] = (int*)malloc(n*sizeof(int));
+	adjoint(key, adj_key, n);
+
+	for(int i=0; i<n; i++)
+		for(int j=0; j<n; j++){
+			key_inv[i][j] = adj_key[i][j] % 26;
+			if(key_inv[i][j] < 0)key_inv[i][j] += 26;
+		}
+	
+	for(int i=0; i<n; i++)
+		for(int j=0; j<n; j++){
+			key_inv[i][j] = (key_inv[i][j]*det_key)%26;	
+			if(key_inv[i][j] < 0)key_inv[i][j] += 26;
+		}
+	
 }
 
 void decrypt(int *block, int **key, int n){
@@ -101,16 +142,24 @@ void decrypt(int *block, int **key, int n){
 	key_inv = (int**)malloc(n*sizeof(int*));
 	for(int i=0; i<n; i++)key_inv[i] = (int*)malloc(n*sizeof(int));
 
-	invert(key, key_inv);
+	invert(key, key_inv, n);
+	/*
+	printf("Inverse Key:\n");
 
-	for(int i=0; i<n; i++)block_cpy[i] = blocks[i];
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++)printf("%d ", key_inv[i][j]);
+		printf("\n");
+	}
+	*/
+
+	for(int i=0; i<n; i++)block_cpy[i] = block[i];
 
 	for(int i=0; i<n; i++){
 		int elem = 0;
 		for(int j=0; j<n; j++){
 			elem += block_cpy[j] * key_inv[i][j];
 		}
-		block[i] = elem;
+		block[i] = elem % 26;
 	}
 }
 
@@ -170,8 +219,40 @@ int main(int argc, char* argv[]){
 			printf("\n");
 		}
 
+		printf("\nDecrypted Text:\n");
+
+		for(int i=0; i<num_blocks; i++){
+			for(int j=0; j<n; j++)printf("%c", blocks[i][j] + 'A');
+			printf(" ----> ");
+			decrypt(blocks[i], key, n);
+			for(int j=0; j<n; j++)printf("%c", blocks[i][j] + 'A');
+			printf("\n");
+		}
+
 		scanf("%c", &ans);
 	}
 
 	return 0;
 }
+
+/*
+
+➜  Hill-Cipher git:(master) ✗ ./a.out          
+Enter key size:3
+Enter key:GYBNQKURP
+6 24 1 
+13 16 10 
+20 17 15 
+Enter text:ACT
+
+Encrypted Text:
+ACT ----> POH
+
+Decrypted Text:
+POH ----> Inverse Key:
+8 5 10 
+21 8 21 
+21 12 8 
+ACT
+
+*/
