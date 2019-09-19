@@ -2,11 +2,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
-Testcases are commented below...
-*/
-
 void print_group_tables(mpz_t z){
+	ofstream fout;
+	string outfile; cin>>outfile;
+	fout.open(outfile.c_str(), ios::out);
 	mpz_t i, j; mpz_inits(i, j, NULL);
 	mpz_set_ui(i, 0);
 	mpz_set_ui(j, 0);
@@ -17,17 +16,17 @@ void print_group_tables(mpz_t z){
 			mpz_t mod; mpz_init(mod);
 			mpz_add(mod, i, j);
 			mpz_mod(mod, mod, z);
-			cout<<"("<<i<<","<<j<<"): "<<mod<<"  "; 
+			fout<<"("<<i<<","<<j<<"): "<<mod<<"  "; 
 			if(mpz_cmp_ui(mod, 0) == 0){
-				cout << "<--- Additive inverses **  ";
+				fout << "<--- Additive inverses **  ";
 			}
 			mpz_add_ui(j, j, 1);
 		}
-		cout << "\n\n";
+		fout << "\n\n";
 		mpz_add_ui(i, i, 1);
 	}
 
-	cout << "\n\n\n\n";	
+	fout << "\n\n\n\n";	
 
 	mpz_set_ui(i, 1);
 	mpz_set_ui(j, 1);
@@ -38,13 +37,13 @@ void print_group_tables(mpz_t z){
 			mpz_t mod; mpz_init(mod);
 			mpz_mul(mod, i, j);
 			mpz_mod(mod, mod, z);
-			cout<<"("<<i<<","<<j<<"): "<<mod<<"  "; 
+			fout<<"("<<i<<","<<j<<"): "<<mod<<"  "; 
 			if(mpz_cmp_ui(mod, 1) == 0){
-				cout << "<--- Multiplicative inverses **  ";
+				fout << "<--- Multiplicative inverses **  ";
 			}
 			mpz_add_ui(j, j, 1);
 		}
-		cout<<"\n\n";
+		fout<<"\n\n";
 		mpz_add_ui(i, i, 1);
 	}
 }
