@@ -207,7 +207,8 @@ int main(int argc, char* argv[]){
 
 		for(int i=0; i<num_blocks; i++)
 			for(int j=0; j<n; j++)
-				blocks[i][j] = buff[i*n + j] - 'A';
+				if(i*n + j < k)blocks[i][j] = buff[i*n + j] - 'A';
+				else blocks[i][j] = 0;
 
 		printf("\nEncrypted Text:\n");
 
