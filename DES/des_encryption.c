@@ -63,6 +63,36 @@ void round_function(int data[32], int key[48]){
 			data[8*i + j] = data_cpy[SD[i][j] - 1];
 }
 
+void left_shift(int *data, int n, int times){
+	for(int j=0; j<times; j++)
+	{
+		int tmp=data[0];
+		for(int i=0; i<n-1; i++)data[i] = data[i+1];
+		data[n-1]=tmp;
+	}
+}
+
+void generate_key(int in_key[64], int key[8][48]){
+	int j=0;
+	int par_drop[56];
+	for(int i=0; i<64; i++){
+		if(i%8!=0){
+			par_drop[j] = in_key[i];
+			j++;
+		}
+	}
+	int shifts[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
+	for(int i=0; i<16; i++){
+		left_shift(par_drop, 28, shifts[i]);
+		left_shift(par_drop+28, 28, shifts[i]);
+
+		for(j=0; j<6; j++)
+			for(int k=0; k<8; k++){
+				key[i][j*8 + k] = par_drop[CD[j][k]];
+			}
+	}
+}
+
 void encrypt(int data[64], int key[8][48]){
 	int L[32], R[32];
 
@@ -95,7 +125,7 @@ int main(int argc, char* argv[]){
 	Init S and P boxes
 	*/
 	FILE* f;
-
+	
 	for(int i=1; i<=8; i++){
 		char filename[10];
 		sprintf(filename, "S%d.txt", i);
@@ -136,17 +166,26 @@ int main(int argc, char* argv[]){
 			fscanf(f, "%d", &Final_P[i][j])
 		}
 	fclose(f);
-
+	
 	f = fopen("CD.txt", "r");
 	for(int i=0; i<6; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &CD[i][j])
+			fscanf(f, "%d", &CD[i][j]);
 		}
 	fclose(f);
 
 	/*
 	Encryption algorithm
 	*/
+	
+	int in_key[64], key[8][48], data[64];
+
+	generate_key(in_key, key);
+	encrypt(data, key);
+
+	f = fopen("ciphertext.txt", "w");
+	for(int i=0; i<64; i++)fprintf(f, "%d\n", data[i]);
+	fclose(f);
 
 	return 0;
 }
