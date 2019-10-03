@@ -11,6 +11,22 @@ void binarize(int *data, int n, int val){
 	}
 }
 
+void binarize2(int *data, int n, unsigned long long val){
+	for(int i=n-1; i>=0; i--){
+		data[i] = val%2;
+		val /= 2;
+	}
+}
+
+void ubinarize(int *data, int n, unsigned long long *val){
+	*val = 0;
+	unsigned long long mul = 1;
+	for(int i=n-1; i>=0; i--){
+		*val += data[i]*mul;
+		mul *= 2;
+	}
+}
+
 void init_permutation(int data[64]){
 	int data_cpy[64];
 	for(int i=0; i<64; i++)data_cpy[i]=data[i];
@@ -39,6 +55,8 @@ void permutation_box(int per_data[6], int i, int per_out[4]){
 void round_function(int data[32], int key[48]){
 	int exp_data[48];
 
+	for(int i=0; i<48; i++)printf("%d\n", key[i]);
+
 	for(int i=0; i<8; i++)
 		for(int j=0; j<6; j++)
 			exp_data[6*i + j] = data[ED[i][j] - 1];
@@ -51,6 +69,7 @@ void round_function(int data[32], int key[48]){
 
 		int per_out[4];
 		permutation_box(per_data, i, per_out);
+		
 
 		for(int j=0; j<4; j++)data[4*i + j] = per_out[j];
 	}
@@ -88,7 +107,7 @@ void generate_key(int in_key[64], int key[8][48]){
 
 		for(j=0; j<6; j++)
 			for(int k=0; k<8; k++){
-				key[i][j*8 + k] = par_drop[CD[j][k]];
+				key[i][j*8 + k] = par_drop[CD[j][k] - 1];
 			}
 	}
 }
@@ -103,15 +122,15 @@ void decrypt(int data[64], int key[8][48]){
 	for(int i=0; i<16; i++){
 		int R_cpy[32];
 
-		for(int i=0; i<32; i++)R_cpy[i] = R[i];
+		for(int ii=0; ii<32; ii++)R_cpy[ii] = R[ii];
 
 		round_function(R, key[15 - i]);
 
-		for(int i=0; i<32; i++)L[i] = L[i]^R[i];
+		for(int ii=0; ii<32; ii++)L[ii] = L[ii]^R[ii];
 
 		if(i<15){
-			for(int i=0; i<32; i++)R[i] = L[i];
-			for(int i=0; i<32; i++)L[i] = R_cpy[i];
+			for(int ii=0; ii<32; ii++)R[ii] = L[ii];
+			for(int ii=0; ii<32; ii++)L[ii] = R_cpy[ii];
 		}
 	}
 
@@ -142,28 +161,28 @@ int main(int argc, char* argv[]){
 	f = fopen("SD.txt", "r");
 	for(int i=0; i<4; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &SD[i][j])
+			fscanf(f, "%d", &SD[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("ED.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<6; j++){
-			fscanf(f, "%d", &ED[i][j])
+			fscanf(f, "%d", &ED[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("Init_P.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &Init_P[i][j])
+			fscanf(f, "%d", &Init_P[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("Final_P.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &Final_P[i][j])
+			fscanf(f, "%d", &Final_P[i][j]);
 		}
 	fclose(f);
 	
@@ -177,11 +196,15 @@ int main(int argc, char* argv[]){
 	/*
 	Encryption algorithm
 	*/
+	unsigned long long hex_key;
+	printf("Enter key: ");
+	scanf("%llx", &hex_key);
 	
 	int in_key[64], key[8][48], data[64];
+	binarize2(in_key, 64, hex_key);
 
 	f = fopen("ciphertext.txt", "r");
-	for(int i=0; i<64; i++)fscanf(f, "%d", data[i]);
+	for(int i=0; i<64; i++)fscanf(f, "%d", &data[i]);
 	fclose(f);
 	
 	printf("Ciphertext: ");
@@ -194,6 +217,10 @@ int main(int argc, char* argv[]){
 	printf("Plaintext: ");
 	for(int i=0; i<64; i++)printf("%d", data[i]);
 	printf("\n");
+	
+	unsigned long long hex_val;
+	ubinarize(data, 64, &hex_val);
+	printf("Plaintext: %llx\n", hex_val);
 
 	return 0;
 }
