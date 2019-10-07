@@ -142,28 +142,28 @@ int main(int argc, char* argv[]){
 	f = fopen("SD.txt", "r");
 	for(int i=0; i<4; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &SD[i][j])
+			fscanf(f, "%d", &SD[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("ED.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<6; j++){
-			fscanf(f, "%d", &ED[i][j])
+			fscanf(f, "%d", &ED[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("Init_P.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &Init_P[i][j])
+			fscanf(f, "%d", &Init_P[i][j]);
 		}
 	fclose(f);
 
 	f = fopen("Final_P.txt", "r");
 	for(int i=0; i<8; i++)
 		for(int j=0; j<8; j++){
-			fscanf(f, "%d", &Final_P[i][j])
+			fscanf(f, "%d", &Final_P[i][j]);
 		}
 	fclose(f);
 	
