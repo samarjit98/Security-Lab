@@ -143,14 +143,6 @@ void decrypt(int *block, int **key, int n){
 	for(int i=0; i<n; i++)key_inv[i] = (int*)malloc(n*sizeof(int));
 
 	invert(key, key_inv, n);
-	/*
-	printf("Inverse Key:\n");
-
-	for(int i=0; i<n; i++){
-		for(int j=0; j<n; j++)printf("%d ", key_inv[i][j]);
-		printf("\n");
-	}
-	*/
 
 	for(int i=0; i<n; i++)block_cpy[i] = block[i];
 
