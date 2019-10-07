@@ -1,0 +1,225 @@
+➜  Hill-Cipher git:(master) ✗ ./a.out
+Enter key size:3
+Enter key:GYBNQKURP
+6 24 1 
+13 16 10 
+20 17 15 
+Enter text:GDHSHUGFISHUIHFIUHUIEWHDUIHSUIHDFUIHSVJNDIHUFHUIWE
+
+Encrypted Text:
+GDH ----> LOQ
+SHU ----> KAZ
+GFI ----> IEN
+SHU ----> KAZ
+IHF ----> NGQ
+IUH ----> PAH
+UIE ----> EMY
+WHD ----> RMG
+UIH ----> HQR
+SUI ----> YKO
+HDF ----> PHG
+UIH ----> HQR
+SVJ ----> XKU
+NDI ----> CLP
+HUF ----> HTJ
+HUI ----> KXC
+WEA ----> UMO
+
+Decrypted Text:
+LOQ ----> GDH
+KAZ ----> SHU
+IEN ----> GFI
+KAZ ----> SHU
+NGQ ----> IHF
+PAH ----> IUH
+EMY ----> UIE
+RMG ----> WHD
+HQR ----> UIH
+YKO ----> SUI
+PHG ----> HDF
+HQR ----> UIH
+XKU ----> SVJ
+CLP ----> NDI
+HTJ ----> HUF
+KXC ----> HUI
+UMO ----> WEA
+➜  Hill-Cipher git:(master) ✗ ./a.out
+Enter key size:3
+Enter key:GYBNQKURP
+6 24 1 
+13 16 10 
+20 17 15 
+Enter text:HHJIFISJHIUDHWIUDHUSJZNNDSDUWIHDNIUWHRFIUEHFUHWSUIJDHIWHEDIOWJDIOJWIODHSWUHDUWHODJIWOJEDIOWJIDOJWIOHDUOWGFRSHGHBDUOHWOIHEDIOWJDIOHWIODH
+
+Encrypted Text:
+HHJ ----> LHE
+IFI ----> UEB
+SJH ----> TGU
+IUD ----> LMZ
+HWI ----> GDK
+UDH ----> ROK
+USJ ----> POJ
+ZNN ----> HNG
+DSD ----> LTV
+UWI ----> GQK
+HDN ----> XJW
+IUW ----> EUY
+HRF ----> NXK
+IUE ----> MWO
+HFU ----> AHF
+HWS ----> QZE
+UIJ ----> JKV
+DHI ----> MXN
+WHE ----> SWV
+DIO ----> QVQ
+WJD ----> NSO
+IOJ ----> DCN
+WIO ----> AIG
+DHS ----> WTH
+WUH ----> VAB
+DUW ----> AHC
+HOD ----> RHH
+JIW ----> IXW
+OJE ----> SCZ
+DIO ----> QVQ
+WJI ----> SQL
+DOJ ----> ZPR
+WIO ----> AIG
+HDU ----> EBX
+OWG ----> UWQ
+FRS ----> OXJ
+HGH ----> LXJ
+BDU ----> UBH
+OHW ----> OUB
+OIH ----> XQB
+EDI ----> AYR
+OWJ ----> XAJ
+DIO ----> QVQ
+HWI ----> GDK
+ODH ----> HOU
+
+Decrypted Text:
+LHE ----> HHJ
+UEB ----> IFI
+TGU ----> SJH
+LMZ ----> IUD
+GDK ----> HWI
+ROK ----> UDH
+POJ ----> USJ
+HNG ----> ZNN
+LTV ----> DSD
+GQK ----> UWI
+XJW ----> HDN
+EUY ----> IUW
+NXK ----> HRF
+MWO ----> IUE
+AHF ----> HFU
+QZE ----> HWS
+JKV ----> UIJ
+MXN ----> DHI
+SWV ----> WHE
+QVQ ----> DIO
+NSO ----> WJD
+DCN ----> IOJ
+AIG ----> WIO
+WTH ----> DHS
+VAB ----> WUH
+AHC ----> DUW
+RHH ----> HOD
+IXW ----> JIW
+SCZ ----> OJE
+QVQ ----> DIO
+SQL ----> WJI
+ZPR ----> DOJ
+AIG ----> WIO
+EBX ----> HDU
+UWQ ----> OWG
+OXJ ----> FRS
+LXJ ----> HGH
+UBH ----> BDU
+OUB ----> OHW
+XQB ----> OIH
+AYR ----> EDI
+XAJ ----> OWJ
+QVQ ----> DIO
+GDK ----> HWI
+HOU ----> ODH
+*** stack smashing detected ***: <unknown> terminated
+[1]    9191 abort (core dumped)  ./a.out
+➜  Hill-Cipher git:(master) ✗ ./a.out
+Enter key size:3
+Enter key:GYBNQKURP
+6 24 1 
+13 16 10 
+20 17 15 
+Enter text:IHDSIUDHIOWJDIPJKPOSKJOXKQOPIJIHELLOHOWAREYOUICNKSOJIODJW
+
+Encrypted Text:
+IHD ----> LMM
+SIU ----> IQQ
+DHI ----> MXN
+OWJ ----> XAJ
+DIP ----> RFF
+JKP ----> XLD
+OSK ----> GYI
+JOX ----> XZJ
+KQO ----> QGG
+PIJ ----> FXZ
+IHE ----> MWB
+LLO ----> GRT
+HOW ----> KPG
+ARE ----> WAL
+YOU ----> GIE
+ICN ----> FGZ
+KSO ----> MMO
+JIO ----> AVG
+DJW ----> WNX
+
+Decrypted Text:
+LMM ----> IHD
+IQQ ----> SIU
+MXN ----> DHI
+XAJ ----> OWJ
+RFF ----> DIP
+XLD ----> JKP
+GYI ----> OSK
+XZJ ----> JOX
+QGG ----> KQO
+FXZ ----> PIJ
+MWB ----> IHE
+GRT ----> LLO
+KPG ----> HOW
+WAL ----> ARE
+GIE ----> YOU
+FGZ ----> ICN
+MMO ----> KSO
+AVG ----> JIO
+WNX ----> DJW
+➜  Hill-Cipher git:(master) ✗ ./a.out
+Enter key size:GYBNQKURP
+Enter key:Enter text:^C
+➜  Hill-Cipher git:(master) ✗ ./a.out
+Enter key size:3
+Enter key:GYBNQKURP
+6 24 1 
+13 16 10 
+20 17 15 
+Enter text:HELLOAHIAHOWAAREAYOU
+
+Encrypted Text:
+HEL ----> TFJ
+LOA ----> MDQ
+HIA ----> ALQ
+HOW ----> KPG
+AAR ----> ROV
+EAY ----> WGY
+OUA ----> SIW
+
+Decrypted Text:
+TFJ ----> HEL
+MDQ ----> LOA
+ALQ ----> HIA
+KPG ----> HOW
+ROV ----> AAR
+WGY ----> EAY
+SIW ----> OUA
