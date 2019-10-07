@@ -1,0 +1,338 @@
+➜  DES git:(master) ✗ gcc des_encryption.c
+➜  DES git:(master) ✗ ./a.out             
+Enter key: aabb09182736ccdd
+Enter input: 123456abcd132536
+Key Generation--
+After par drop: c3c033a33f0cfa
+After shifting: 878067567e19f4
+After shifting: f00cebcfc33e8
+After shifting: 3c033ac3f0cfa3
+After shifting: f00ceb0fc33e8c
+After shifting: c033ac3f0cfa33
+After shifting: ceb0fc33e8cf
+After shifting: 33ac3c0cfa33f
+After shifting: ceb0f033e8cfc
+After shifting: 19d61e067d19f8
+After shifting: 67587809f467e1
+After shifting: 9d61e017d19f86
+After shifting: 7587806f467e19
+After shifting: d61e019d19f867
+After shifting: 5878067467e19f
+After shifting: 61e019d19f867d
+After shifting: c3c033a33f0cfa
+After init permutation: 14a7d67818ca18ad
+Round 1
+Key: 194cd072de8c
+After expansion: 8f16540f155a
+After xor: 965a847dcbd6
+After sbox: 8afe657e
+After str d box: 4edf35ec
+After xoring: 5a78e394
+After round: 18ca18ad 5a78e394 
+
+Round 2
+Key: 4568581abcce
+After expansion: 2f43f1707ca8
+After xor: 6a2ba96ac066
+After sbox: 9e0a0cd1
+After str d box: 52d8085b
+After xoring: 4a1210f6
+After round: 5a78e394 4a1210f6 
+
+Round 3
+Key: 6eda4acf5b5
+After expansion: 2540a40a17ac
+After xor: 23ad00a6e219
+After sbox: 232713f0
+After str d box: e2707605
+After xoring: b8089591
+After round: 4a1210f6 b8089591 
+
+Round 4
+Key: da2d032b6ee3
+After expansion: df00514abca3
+After xor: 52d5261d240
+After sbox: 7e2d34d
+After str d box: 69756934
+After xoring: 236779c2
+After round: b8089591 236779c2 
+
+Round 5
+Key: 69a629fec913
+After expansion: 106b0ebf3e04
+After xor: 79cd2741f717
+After sbox: 7526886b
+After str d box: 1952de16
+After xoring: a15a4b87
+After round: 236779c2 a15a4b87 
+
+Round 6
+Key: c1948e87475e
+After expansion: d02af4257c0f
+After xor: 11be7aa23b51
+After sbox: d9b2a3ac
+After str d box: de8e5a7
+After xoring: 2e8f9c65
+After round: a15a4b87 2e8f9c65 
+
+Round 7
+Key: 708ad2ddb3c0
+After expansion: 95d45fcf830a
+After xor: e55e8d1230ca
+After sbox: a1a0430f
+After str d box: 8a66b24
+After xoring: a9fc20a3
+After round: 2e8f9c65 a9fc20a3 
+
+Round 8
+Key: 34f822f0c66d
+After expansion: d53ff8101507
+After xor: e1c7dae0d36a
+After sbox: 351c691c
+After str d box: 1e0472f2
+After xoring: 308bee97
+After round: a9fc20a3 308bee97 
+
+Round 9
+Key: 84bb4473dccc
+After expansion: 9a1457f5d4ae
+After xor: 1eaf13860862
+After sbox: 44e7b96b
+After str d box: b953bd94
+After xoring: 10af9d37
+After round: 308bee97 10af9d37 
+
+Round 10
+Key: 2765708b5bf
+After expansion: 8a155fcfa9ae
+After xor: 886308c71c11
+After sbox: 1ef06bac
+After str d box: 5c2d25b7
+After xoring: 6ca6cb20
+After round: 10af9d37 6ca6cb20 
+
+Round 11
+Key: 6d5560af7ca5
+After expansion: 35950d656900
+After xor: 58c06dca15a5
+After sbox: c3dd947e
+After str d box: ef93d568
+After xoring: ff3c485f
+After round: 6ca6cb20 ff3c485f 
+
+Round 12
+Key: c2c1e96a4bf3
+After expansion: ffe9f82502ff
+After xor: 3d28114f490c
+After sbox: 17d404bb
+After str d box: 4e035d1b
+After xoring: 22a5963b
+After round: ff3c485f 22a5963b 
+
+Round 13
+Key: 99c31397c91f
+After expansion: 90550bcac1f6
+After xor: 996185d08e9
+After sbox: 46bba0b4
+After str d box: c74085f5
+After xoring: 387ccdaa
+After round: 22a5963b 387ccdaa 
+
+Round 14
+Key: 251b8bc717d0
+After expansion: 1f03f965bd54
+After xor: 3a1872a2aa84
+After sbox: 8d11a838
+After str d box: 9f884490
+After xoring: bd2dd2ab
+After round: 387ccdaa bd2dd2ab 
+
+Round 15
+Key: 3330c5d9a36d
+After expansion: dfa95bea5557
+After xor: ec999e33f63a
+After sbox: f9fbd53
+After str d box: f75a79d8
+After xoring: cf26b472
+After round: bd2dd2ab cf26b472 
+
+Round 16
+Key: 181c5d75c66d
+After expansion: 65e90d5a83a5
+After xor: 7df5502f45c8
+After sbox: 855174c6
+After str d box: a49740b9
+After xoring: 19ba9212
+After round: 19ba9212 cf26b472 
+
+Ciphertext: c0b7a8d05f3a829c 
+
+➜  DES git:(master) ✗ gcc des_decryption.c
+➜  DES git:(master) ✗ ./a.out
+Enter key: aabb09182736ccdd
+Ciphertext: 1100000010110111101010001101000001011111001110101000001010011100
+Key Generation--
+After par drop: c3c033a33f0cfa
+After shifting: 878067567e19f4
+After shifting: f00cebcfc33e8
+After shifting: 3c033ac3f0cfa3
+After shifting: f00ceb0fc33e8c
+After shifting: c033ac3f0cfa33
+After shifting: ceb0fc33e8cf
+After shifting: 33ac3c0cfa33f
+After shifting: ceb0f033e8cfc
+After shifting: 19d61e067d19f8
+After shifting: 67587809f467e1
+After shifting: 9d61e017d19f86
+After shifting: 7587806f467e19
+After shifting: d61e019d19f867
+After shifting: 5878067467e19f
+After shifting: 61e019d19f867d
+After shifting: c3c033a33f0cfa
+After init permutation: 19ba9212cf26b472
+Round 1
+Key: 181c5d75c66d
+After expansion: 65e90d5a83a5
+After xor: 7df5502f45c8
+After sbox: 855174c6
+After str d box: a49740b9
+After xoring: bd2dd2ab
+After round: cf26b472 bd2dd2ab 
+
+Round 2
+Key: 3330c5d9a36d
+After expansion: dfa95bea5557
+After xor: ec999e33f63a
+After sbox: f9fbd53
+After str d box: f75a79d8
+After xoring: 387ccdaa
+After round: bd2dd2ab 387ccdaa 
+
+Round 3
+Key: 251b8bc717d0
+After expansion: 1f03f965bd54
+After xor: 3a1872a2aa84
+After sbox: 8d11a838
+After str d box: 9f884490
+After xoring: 22a5963b
+After round: 387ccdaa 22a5963b 
+
+Round 4
+Key: 99c31397c91f
+After expansion: 90550bcac1f6
+After xor: 996185d08e9
+After sbox: 46bba0b4
+After str d box: c74085f5
+After xoring: ff3c485f
+After round: 22a5963b ff3c485f 
+
+Round 5
+Key: c2c1e96a4bf3
+After expansion: ffe9f82502ff
+After xor: 3d28114f490c
+After sbox: 17d404bb
+After str d box: 4e035d1b
+After xoring: 6ca6cb20
+After round: ff3c485f 6ca6cb20 
+
+Round 6
+Key: 6d5560af7ca5
+After expansion: 35950d656900
+After xor: 58c06dca15a5
+After sbox: c3dd947e
+After str d box: ef93d568
+After xoring: 10af9d37
+After round: 6ca6cb20 10af9d37 
+
+Round 7
+Key: 2765708b5bf
+After expansion: 8a155fcfa9ae
+After xor: 886308c71c11
+After sbox: 1ef06bac
+After str d box: 5c2d25b7
+After xoring: 308bee97
+After round: 10af9d37 308bee97 
+
+Round 8
+Key: 84bb4473dccc
+After expansion: 9a1457f5d4ae
+After xor: 1eaf13860862
+After sbox: 44e7b96b
+After str d box: b953bd94
+After xoring: a9fc20a3
+After round: 308bee97 a9fc20a3 
+
+Round 9
+Key: 34f822f0c66d
+After expansion: d53ff8101507
+After xor: e1c7dae0d36a
+After sbox: 351c691c
+After str d box: 1e0472f2
+After xoring: 2e8f9c65
+After round: a9fc20a3 2e8f9c65 
+
+Round 10
+Key: 708ad2ddb3c0
+After expansion: 95d45fcf830a
+After xor: e55e8d1230ca
+After sbox: a1a0430f
+After str d box: 8a66b24
+After xoring: a15a4b87
+After round: 2e8f9c65 a15a4b87 
+
+Round 11
+Key: c1948e87475e
+After expansion: d02af4257c0f
+After xor: 11be7aa23b51
+After sbox: d9b2a3ac
+After str d box: de8e5a7
+After xoring: 236779c2
+After round: a15a4b87 236779c2 
+
+Round 12
+Key: 69a629fec913
+After expansion: 106b0ebf3e04
+After xor: 79cd2741f717
+After sbox: 7526886b
+After str d box: 1952de16
+After xoring: b8089591
+After round: 236779c2 b8089591 
+
+Round 13
+Key: da2d032b6ee3
+After expansion: df00514abca3
+After xor: 52d5261d240
+After sbox: 7e2d34d
+After str d box: 69756934
+After xoring: 4a1210f6
+After round: b8089591 4a1210f6 
+
+Round 14
+Key: 6eda4acf5b5
+After expansion: 2540a40a17ac
+After xor: 23ad00a6e219
+After sbox: 232713f0
+After str d box: e2707605
+After xoring: 5a78e394
+After round: 4a1210f6 5a78e394 
+
+Round 15
+Key: 4568581abcce
+After expansion: 2f43f1707ca8
+After xor: 6a2ba96ac066
+After sbox: 9e0a0cd1
+After str d box: 52d8085b
+After xoring: 18ca18ad
+After round: 5a78e394 18ca18ad 
+
+Round 16
+Key: 194cd072de8c
+After expansion: 8f16540f155a
+After xor: 965a847dcbd6
+After sbox: 8afe657e
+After str d box: 4edf35ec
+After xoring: 14a7d678
+After round: 14a7d678 18ca18ad 
+
+Plaintext: 0001001000110100010101101010101111001101000100110010010100110110
+Plaintext: 123456abcd132536
