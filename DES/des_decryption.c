@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int S_box[8][4][16], Init_P[8][8], Final_P[8][8], ED[8][6], SD[4][8], CD[6][8];
+int S_box[8][4][16], Init_P[8][8], Final_P[8][8], ED[8][6], SD[4][8], CD[6][8], PD[7][8];
 
 void binarize(int *data, int n, int val){
 	for(int i=n-1; i>=0; i--){
@@ -55,13 +55,21 @@ void permutation_box(int per_data[6], int i, int per_out[4]){
 void round_function(int data[32], int key[48]){
 	int exp_data[48];
 
-	for(int i=0; i<48; i++)printf("%d\n", key[i]);
+	unsigned long long val;
+	ubinarize(key, 48, &val);
+	printf("Key: %llx\n", val);
 
 	for(int i=0; i<8; i++)
 		for(int j=0; j<6; j++)
 			exp_data[6*i + j] = data[ED[i][j] - 1];
 
+	ubinarize(exp_data, 48, &val);
+	printf("After expansion: %llx\n", val);
+
 	for(int i=0; i<48; i++)exp_data[i] = exp_data[i]^key[i];
+
+	ubinarize(exp_data, 48, &val);
+	printf("After xor: %llx\n", val);
 
 	for(int i=0; i<8; i++){
 		int per_data[6];
@@ -69,17 +77,22 @@ void round_function(int data[32], int key[48]){
 
 		int per_out[4];
 		permutation_box(per_data, i, per_out);
-		
 
 		for(int j=0; j<4; j++)data[4*i + j] = per_out[j];
 	}
-
+	
 	int data_cpy[32];
 	for(int i=0; i<32; i++)data_cpy[i]=data[i];
+
+	ubinarize(data_cpy, 32, &val);
+	printf("After sbox: %llx\n", val);
 
 	for(int i=0; i<4; i++)
 		for(int j=0; j<8; j++)
 			data[8*i + j] = data_cpy[SD[i][j] - 1];
+	ubinarize(data, 32, &val);
+	printf("After str d box: %llx\n", val);
+
 }
 
 void left_shift(int *data, int n, int times){
@@ -92,20 +105,27 @@ void left_shift(int *data, int n, int times){
 }
 
 void generate_key(int in_key[64], int key[8][48]){
-	int j=0;
 	int par_drop[56];
-	for(int i=0; i<64; i++){
-		if(i%8!=0){
-			par_drop[j] = in_key[i];
-			j++;
-		}
-	}
+
+	printf("Key Generation--\n");
+
+	for(int i=0; i<7; i++)
+		for(int j=0; j<8; j++)
+			par_drop[8*i + j] = in_key[PD[i][j] - 1];
+
+	unsigned long long val;
+	ubinarize(par_drop, 56, &val);
+	printf("After par drop: %llx\n", val);
+	
 	int shifts[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 	for(int i=0; i<16; i++){
 		left_shift(par_drop, 28, shifts[i]);
-		left_shift(par_drop+28, 28, shifts[i]);
+		left_shift(par_drop + 28, 28, shifts[i]);
 
-		for(j=0; j<6; j++)
+		ubinarize(par_drop, 56, &val);
+		printf("After shifting: %llx\n", val);
+
+		for(int j=0; j<6; j++)
 			for(int k=0; k<8; k++){
 				key[i][j*8 + k] = par_drop[CD[j][k] - 1];
 			}
@@ -114,12 +134,18 @@ void generate_key(int in_key[64], int key[8][48]){
 
 void decrypt(int data[64], int key[8][48]){
 	int L[32], R[32];
+	init_permutation(data);
+
+	unsigned long long val;
+	ubinarize(data, 64, &val);
+	printf("After init permutation: %llx\n", val);
 
 	for(int i=0; i<64; i++)
 		if(i<32)L[i] = data[i];
 		else R[i - 32] = data[i];
 
 	for(int i=0; i<16; i++){
+		printf("Round %d\n", i+1);
 		int R_cpy[32];
 
 		for(int ii=0; ii<32; ii++)R_cpy[ii] = R[ii];
@@ -128,15 +154,30 @@ void decrypt(int data[64], int key[8][48]){
 
 		for(int ii=0; ii<32; ii++)L[ii] = L[ii]^R[ii];
 
+		ubinarize(L, 32, &val);
+		printf("After xoring: %llx\n", val);
+
 		if(i<15){
 			for(int ii=0; ii<32; ii++)R[ii] = L[ii];
 			for(int ii=0; ii<32; ii++)L[ii] = R_cpy[ii];
 		}
+		else{
+			for(int ii=0; ii<32; ii++)R[ii] = R_cpy[ii];
+			for(int ii=0; ii<32; ii++)L[ii] = L[ii];
+		}
+		
+		ubinarize(L, 32, &val);
+		printf("After round: %llx ", val);
+		ubinarize(R, 32, &val);
+		printf("%llx ", val);
+		printf("\n\n");
 	}
 
 	for(int i=0; i<64; i++)
-		if(i<32)data[i] = L[i];
+		if(i<32)data[i] = L[i];	
 		else data[i] = R[i - 32];
+
+	final_permutation(data);
 }
 
 int main(int argc, char* argv[]){
@@ -193,8 +234,15 @@ int main(int argc, char* argv[]){
 		}
 	fclose(f);
 
+	f = fopen("PD.txt", "r");
+	for(int i=0; i<7; i++)
+		for(int j=0; j<8; j++){
+			fscanf(f, "%d", &PD[i][j]);
+		}
+	fclose(f);
+
 	/*
-	Encryption algorithm
+	Decryption algorithm
 	*/
 	unsigned long long hex_key;
 	printf("Enter key: ");

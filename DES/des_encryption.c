@@ -57,16 +57,19 @@ void round_function(int data[32], int key[48]){
 
 	unsigned long long val;
 	ubinarize(key, 48, &val);
-	printf("key: %llx\n", val);
+	printf("Key: %llx\n", val);
 
 	for(int i=0; i<8; i++)
 		for(int j=0; j<6; j++)
 			exp_data[6*i + j] = data[ED[i][j] - 1];
 
+	ubinarize(exp_data, 48, &val);
+	printf("After expansion: %llx\n", val);
+
 	for(int i=0; i<48; i++)exp_data[i] = exp_data[i]^key[i];
 
 	ubinarize(exp_data, 48, &val);
-	printf("after xor: %llx\n", val);
+	printf("After xor: %llx\n", val);
 
 	for(int i=0; i<8; i++){
 		int per_data[6];
@@ -82,14 +85,13 @@ void round_function(int data[32], int key[48]){
 	for(int i=0; i<32; i++)data_cpy[i]=data[i];
 
 	ubinarize(data_cpy, 32, &val);
-	printf("after sbox: %llx\n", val);
-
+	printf("After sbox: %llx\n", val);
 
 	for(int i=0; i<4; i++)
 		for(int j=0; j<8; j++)
 			data[8*i + j] = data_cpy[SD[i][j] - 1];
 	ubinarize(data, 32, &val);
-	printf("after str d box: %llx\n", val);
+	printf("After str d box: %llx\n", val);
 
 }
 
@@ -105,13 +107,15 @@ void left_shift(int *data, int n, int times){
 void generate_key(int in_key[64], int key[8][48]){
 	int par_drop[56];
 
+	printf("Key Generation--\n");
+
 	for(int i=0; i<7; i++)
 		for(int j=0; j<8; j++)
 			par_drop[8*i + j] = in_key[PD[i][j] - 1];
 
 	unsigned long long val;
 	ubinarize(par_drop, 56, &val);
-	printf("after par drop: %llx\n", val);
+	printf("After par drop: %llx\n", val);
 	
 	int shifts[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 	for(int i=0; i<16; i++){
@@ -119,7 +123,7 @@ void generate_key(int in_key[64], int key[8][48]){
 		left_shift(par_drop + 28, 28, shifts[i]);
 
 		ubinarize(par_drop, 56, &val);
-		printf("after shifting: %llx\n", val);
+		printf("After shifting: %llx\n", val);
 
 		for(int j=0; j<6; j++)
 			for(int k=0; k<8; k++){
@@ -132,12 +136,16 @@ void encrypt(int data[64], int key[8][48]){
 	int L[32], R[32];
 	init_permutation(data);
 
+	unsigned long long val;
+	ubinarize(data, 64, &val);
+	printf("After init permutation: %llx\n", val);
+
 	for(int i=0; i<64; i++)
 		if(i<32)L[i] = data[i];
 		else R[i - 32] = data[i];
 
 	for(int i=0; i<16; i++){
-		printf("round %d\n", i+1);
+		printf("Round %d\n", i+1);
 		int R_cpy[32];
 
 		for(int ii=0; ii<32; ii++)R_cpy[ii] = R[ii];
@@ -146,15 +154,27 @@ void encrypt(int data[64], int key[8][48]){
 
 		for(int ii=0; ii<32; ii++)L[ii] = L[ii]^R[ii];
 
+		ubinarize(L, 32, &val);
+		printf("After xoring: %llx\n", val);
+
 		if(i<15){
 			for(int ii=0; ii<32; ii++)R[ii] = L[ii];
 			for(int ii=0; ii<32; ii++)L[ii] = R_cpy[ii];
 		}
+		else{
+			for(int ii=0; ii<32; ii++)R[ii] = R_cpy[ii];
+			for(int ii=0; ii<32; ii++)L[ii] = L[ii];
+		}
+		
+		ubinarize(L, 32, &val);
+		printf("After round: %llx ", val);
+		ubinarize(R, 32, &val);
+		printf("%llx ", val);
 		printf("\n\n");
 	}
 
 	for(int i=0; i<64; i++)
-		if(i<32)data[i] = L[i];
+		if(i<32)data[i] = L[i];	
 		else data[i] = R[i - 32];
 
 	final_permutation(data);
