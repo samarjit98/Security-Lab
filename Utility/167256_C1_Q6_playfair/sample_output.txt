@@ -1,0 +1,51 @@
+➜  167256_C1_Q6_playfair git:(master) ✗ ./a.out
+
+PLAYFAIRTHE�
+
+P L A Y F 
+I R T H E 
+B C D G K 
+M N O Q S 
+U V W X Z 
+
+I A -> T P
+M F -> S P
+I N -> R M
+E X -> H Z
+➜  167256_C1_Q6_playfair git:(master) ✗ ./a.out
+
+PLAYFAIRTHE�
+
+P L A Y F 
+I R T H E 
+B C D G K 
+M N O Q S 
+U V W X Z 
+
+S E -> Z K
+N D -> O C
+T H -> H E
+E D -> T K
+A T -> T D
+A T -> T D
+O S -> Q M
+T A -> D T
+N X -> Q V
+➜  167256_C1_Q6_playfair git:(master) ✗ ./a.out
+
+PLAYFAIRTHE�
+
+P L A Y F 
+I R T H E 
+B C D G K 
+M N O Q S 
+U V W X Z 
+
+I A -> T P
+M L -> N P
+O R -> N T
+D V -> C W
+O L -> N A
+D E -> K T
+M O -> N Q
+R T -> T H
