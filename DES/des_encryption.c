@@ -96,8 +96,7 @@ void round_function(int data[32], int key[48]){
 }
 
 void left_shift(int *data, int n, int times){
-	for(int j=0; j<times; j++)
-	{
+	for(int j=0; j<times; j++){
 		int tmp=data[0];
 		for(int i=0; i<n-1; i++)data[i] = data[i+1];
 		data[n-1]=tmp;
