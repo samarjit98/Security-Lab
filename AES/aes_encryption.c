@@ -4,6 +4,50 @@
 
 int S_box[16][16];
 
+void add_round_key(int state_array[4][4], int key[4][4]){
+	for(int i=0; i<4; i++)
+		for(int j=0; j<4; j++)
+			state_array[i][j] = state_array[i][j] ^ key[i][j];
+}
+
+void substitute_bytes(int state_array[4][4]){
+	for(int i=0; i<4; i++)
+		for(int j=0; j<4; j++){
+			int col = state_array[i][j] & 15;
+			int row = (state_array[i][j] >> 4) & 15;
+			state_array[i][j] = S_box[row][col];
+		}
+}
+
+void left_shift(int *data, int n, int times){
+	for(int j=0; j<times; j++){
+		int tmp=data[0];
+		for(int i=0; i<n-1; i++)data[i] = data[i+1];
+		data[n-1]=tmp;
+	}
+}
+
+void shift_rows(int state_array[4][4]){
+	for(int i=0; i<4; i++){
+		left_shift(state_array[i], 4, i);
+	}
+}
+
+void mix_columns(int state_array[4][4]){
+	
+}
+
+void encrypt(int state_array[4][4], int Key[11][4][4]){
+	add_round_key(state_array, Key[0]);
+
+	for(int i=0; i<10; i++){
+		substitute_bytes(state_array);
+		shift_rows(state_array);
+		if(i<9)mix_columns(state_array);
+		add_round_key(state_array, Key[i+1]);
+	}
+}
+
 void convert_to_state_array(unsigned long long int ip1, unsigned long long int ip2, int state_array[4][4]){
 	for(int j=3; j>=0; j--)
 		for(int i=3; i>=0; i--){
@@ -40,7 +84,7 @@ void generate_key(unsigned long long int key1, unsigned long long int key2, int 
 		}
 
 	for(int i=1; i<=10; i++){
-		
+
 	}
 }
 
