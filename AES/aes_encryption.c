@@ -33,8 +33,15 @@ void shift_rows(int state_array[4][4]){
 	}
 }
 
-int mul_field(int a, int b){
-	
+int gal_mul(int a, int b){
+	int res = 0;
+	int min_poly = 0b11101;
+	for (; b; b >>= 1){
+		if (b & 1)res ^= a;
+		if (a & 0x80)a = (a << 1) ^ min_poly;
+		else a <<= 1;
+	}
+	return res;
 }
 
 void mix_columns(int state_array[4][4]){
@@ -49,7 +56,7 @@ void mix_columns(int state_array[4][4]){
 		for(int j=0; j<4; j++){
 			int val = 0;
 			for(int k=0; k<4; k++){
-				val = val ^ mul_field(field_mat[i][k], state_array[k][j]);
+				val = val ^ gal_mul(field_mat[i][k], state_array[k][j]);
 			}
 			state_cpy[i][j] = val;
 		}
