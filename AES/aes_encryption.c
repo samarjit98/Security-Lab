@@ -33,8 +33,30 @@ void shift_rows(int state_array[4][4]){
 	}
 }
 
-void mix_columns(int state_array[4][4]){
+int mul_field(int a, int b){
 	
+}
+
+void mix_columns(int state_array[4][4]){
+	int field_mat[4][4] = {
+							{2, 3, 1, 1},
+							{1, 2, 3, 1},
+							{1, 1, 2, 3},
+							{3, 1, 1, 2}
+						};
+	int state_cpy[4][4];
+	for(int i=0; i<4; i++)
+		for(int j=0; j<4; j++){
+			int val = 0;
+			for(int k=0; k<4; k++){
+				val = val ^ mul_field(field_mat[i][k], state_array[k][j]);
+			}
+			state_cpy[i][j] = val;
+		}
+
+	for(int i=0; i<4; i++)
+		for(int j=0; j<4; j++)
+			state_array[i][j] = state_cpy[i][j];
 }
 
 void encrypt(int state_array[4][4], int Key[11][4][4]){
