@@ -45,11 +45,7 @@ int gal_mul(int a, int b){
 }
 
 void mix_columns(int state_array[4][4]){
-	int field_mat[4][4] = { {2, 3, 1, 1}, 
-							{1, 2, 3, 1}, 
-							{1, 1, 2, 3}, 
-							{3, 1, 1, 2} 
-						};
+	int field_mat[4][4] = { {2, 3, 1, 1}, {1, 2, 3, 1}, {1, 1, 2, 3}, {3, 1, 1, 2} };
 	int state_cpy[4][4];
 	for(int i=0; i<4; i++)
 		for(int j=0; j<4; j++){
