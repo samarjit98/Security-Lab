@@ -45,12 +45,7 @@ int gal_mul(int a, int b){
 }
 
 void mix_columns(int state_array[4][4]){
-	int field_mat[4][4] = {
-							{2, 3, 1, 1},
-							{1, 2, 3, 1},
-							{1, 1, 2, 3},
-							{3, 1, 1, 2}
-						};
+	int field_mat[4][4] = { { 2, 3, 1, 1}, { 1, 2, 3, 1}, { 1, 1, 2, 3}, { 3, 1, 1, 2} };
 	int state_cpy[4][4];
 	for(int i=0; i<4; i++)
 		for(int j=0; j<4; j++){
@@ -112,8 +107,39 @@ void generate_key(unsigned long long int key1, unsigned long long int key2, int 
 			}
 		}
 
-	for(int i=1; i<=10; i++){
+	int RCon[10][4]; RCon[0] = {1, 0, 0, 0};
+	for(int i=1; i<10; i++){
+		RCon[i][0] = gal_mul(RCon[i-1][0], 2);
+		for(int j=1; j<4; j++)RCon[i][j] = 0;
+	}
 
+	for(int i=1; i<=10; i++){
+		for(int j=0; j<4; j++){
+			int tmp;
+			if(j==0){
+				tmp = Key[i-1][0][3];
+				for(int k=0; k<3; k++)Key[i][k][j] = Key[i-1][k+1][j];
+				Key[i][3][j] = tmp;
+			}
+			else{
+				tmp = Key[i][0][j-1];
+				for(int k=0; k<3; k++)Key[i][k][j] = Key[i][k+1][j-1];
+				Key[i][3][j] = tmp;
+			}
+		}
+
+		for(int j=0; j<4; j++)
+			for(int k=0; k<4; k++){
+				int col = Key[i][j][k] & 15;
+				int row = (Key[i][j][k] >> 4) & 15;
+				state_array[i][j] = S_box[row][col];
+		}
+
+		for(int j=0; j<4; j++)Key[i][j][0] = Key[i][j][0] ^ RCon[i-1][j];
+
+		for(int j=0; j<4; j++)
+			for(int k=0; k<4; k++)
+				Key[i][j][k] = Key[i][j][k] ^ Key[i-1][j][k];
 	}
 }
 
