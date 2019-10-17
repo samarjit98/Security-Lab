@@ -1,0 +1,196 @@
+63 7c 77 7b f2 6b 6f c5 30 1 67 2b fe d7 ab 76 
+ca 82 c9 7d fa 59 47 f0 ad d4 a2 af 9c a4 72 c0 
+b7 fd 93 26 36 3f f7 cc 34 a5 e5 f1 71 d8 31 15 
+4 c7 23 c3 18 96 5 9a 7 12 80 e2 eb 27 b2 75 
+9 83 2c 1a 1b 6e 5a a0 52 3b d6 b3 29 e3 2f 84 
+53 d1 0 ed 20 fc b1 5b 6a cb be 39 4a 4c 58 cf 
+d0 ef aa fb 43 4d 33 85 45 f9 2 7f 50 3c 9f a8 
+51 a3 40 8f 92 9d 38 f5 bc b6 da 21 10 ff f3 d2 
+cd c 13 ec 5f 97 44 17 c4 a7 7e 3d 64 5d 19 73 
+60 81 4f dc 22 2a 90 88 46 ee b8 14 de 5e b db 
+e0 32 3a a 49 6 24 5c c2 d3 ac 62 91 95 e4 79 
+e7 cb 37 6d 8d d5 4e a9 6c 56 f4 ea 65 7a ae 8 
+ba 78 25 2e 1c a6 b4 c6 e8 dd 74 1f 4b bd 8b 8a 
+70 3e b5 66 48 3 f6 e 61 35 57 b9 86 c1 1d 9e 
+e1 f8 98 11 69 d9 8e 94 9b 1e 87 e9 ce 55 28 df 
+8c a1 89 d bf e6 42 68 41 99 2d f b0 54 bb 16 
+Enter key (64 bits - 64 bits): Enter plaintext (64 bits - 64 bits): Plaintext state array: 0 12 c 8 
+4 4 0 23 
+12 12 13 19 
+14 0 11 19 
+
+Round: 0
+Input:
+24 26 3d 1b 
+71 71 e2 89 
+b0 44 1 4d 
+a7 88 11 9e 
+Output:
+15b f7 1c5 4c 
+1ad a6 1b 16c 
+bf 17b 8d 1cf 
+5d 1d2 186 a7 
+Key:
+b8 e 5c 6e 
+4f 18 9f 37 
+cf 2b 8f 6e 
+ce 15 3a ea 
+
+Round: 1
+Input:
+15b f7 1c5 4c 
+1ad a6 1b 16c 
+bf 17b 8d 1cf 
+5d 1d2 186 a7 
+Output:
+21 17e 1cb 164 
+f 77 ab 18a 
+7 1ae 12f d6 
+db 94 68 26 
+Key:
+3e 84 d7 f1 
+c5 93 0 b3 
+44 b4 b e4 
+51 91 b0 61 
+
+Round: 2
+Input:
+21 17e 1cb 164 
+f 77 ab 18a 
+7 1ae 12f d6 
+db 94 68 26 
+Output:
+9b 18d 5d ed 
+11c 1cb 132 1ce 
+1b3 a3 13d 1d0 
+f9 c4 75 6d 
+Key:
+9c 9f 6 50 
+de 42 a1 15 
+95 15 ad ff 
+f0 37 ab b0 
+
+Round: 3
+Input:
+9b 18d 5d ed 
+11c 1cb 132 1ce 
+1b3 a3 13d 1d0 
+f9 c4 75 6d 
+Output:
+9b 83 1e3 187 
+8b dc 11e 1fb 
+18 16e 89 1b2 
+df 1b1 8b 172 
+Key:
+89 b5 8a 3 
+f4 ce f2 8 
+19 46 b0 d5 
+a3 2a 81 3c 
+
+Round: 4
+Input:
+9b 83 1e3 187 
+8b dc 11e 1fb 
+18 16e 89 1b2 
+df 1b1 8b 172 
+Output:
+17e 19b d5 b3 
+91 b 1a7 15b 
+112 172 16 14f 
+45 d8 14f d7 
+Key:
+26 61 80 78 
+20 c4 89 b7 
+13 3d f 1 
+d8 95 55 36 
+
+Round: 5
+Input:
+17e 19b d5 b3 
+91 b 1a7 15b 
+112 172 16 14f 
+45 d8 14f d7 
+Output:
+17e 3a 4 144 
+3f 1f6 163 136 
+36 16e 1ae 181 
+11c 1a 1f 134 
+Key:
+b1 1c e1 c4 
+5d a5 35 0 
+72 81 b8 7c 
+64 22 28 57 
+
+Round: 6
+Input:
+17e 3a 4 144 
+3f 1f6 163 136 
+36 16e 1ae 181 
+11c 1a 1f 134 
+Output:
+17c c1 1f3 2e 
+143 105 7c 1c1 
+17d 147 1f2 2c 
+1e6 21 3a 14e 
+Key:
+bd 5c a2 d8 
+1d e6 29 4c 
+31 9d f4 3c 
+78 6e 68 14 
+
+Round: 7
+Input:
+17c c1 1f3 2e 
+143 105 7c 1c1 
+17d 147 1f2 2c 
+1e6 21 3a 14e 
+Output:
+a2 a4 8e d5 
+1b5 1f 154 190 
+188 1f9 dc 10 
+95 122 1d8 15c 
+Key:
+99 9b 1e b9 
+da 5a 48 e8 
+8d fc 50 fb 
+19 ca af a8 
+
+Round: 8
+Input:
+a2 a4 8e d5 
+1b5 1f 154 190 
+188 1f9 dc 10 
+95 122 1d8 15c 
+Output:
+36 d4 f 173 
+fd 1ee 105 dc 
+16c 134 43 1fc 
+d3 f8 146 f7 
+Key:
+1d3 c6 ca ef 
+87 8e 1e bf 
+59 aa 7 a6 
+4f 9d f2 7c 
+
+Round: 9
+Input:
+36 d4 f 173 
+fd 1ee 105 dc 
+16c 134 43 1fc 
+d3 f8 146 f7 
+Output:
+3fb 45 38 bf 
+64 61 47 fc 
+c7 c5 40 75 
+f8 ec 78 a2 
+Key:
+3fe d 4e 30 
+4c a c1 a8 
+dd 75 10 6d 
+90 8a 39 f8 
+
+Ciphertext: 3fb 45 38 bf 
+64 61 47 fc 
+c7 c5 40 75 
+f8 ec 78 a2 
+

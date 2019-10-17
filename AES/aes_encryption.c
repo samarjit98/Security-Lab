@@ -65,10 +65,30 @@ void encrypt(int state_array[4][4], int Key[11][4][4]){
 	add_round_key(state_array, Key[0]);
 
 	for(int i=0; i<10; i++){
+		printf("Round: %d\n", i);
+		printf("Input:\n");
+		for(int j=0; j<4; j++){
+			for(int k=0; k<4; k++)
+				printf("%x ", state_array[j][k]);
+			printf("\n");
+		}
 		substitute_bytes(state_array);
 		shift_rows(state_array);
 		if(i<9)mix_columns(state_array);
 		add_round_key(state_array, Key[i+1]);
+		printf("Output:\n");
+		for(int j=0; j<4; j++){
+			for(int k=0; k<4; k++)
+				printf("%x ", state_array[j][k]);
+			printf("\n");
+		}
+		printf("Key:\n");
+		for(int j=0; j<4; j++){
+			for(int k=0; k<4; k++)
+				printf("%x ", Key[i+1][j][k]);
+			printf("\n");
+		}
+		printf("\n");
 	}
 }
 
@@ -85,7 +105,7 @@ void convert_to_state_array(unsigned long long int ip1, unsigned long long int i
 			}
 		}
 
-	printf("Plaintext state array: ");
+	printf("Plaintext state array: \n");
 	for(int i=0; i<4; i++){
 		for(int j=0; j<4; j++)
 			printf("%x ", state_array[i][j]);
@@ -107,7 +127,7 @@ void generate_key(unsigned long long int key1, unsigned long long int key2, int 
 			}
 		}
 
-	int RCon[10][4]; RCon[0] = {1, 0, 0, 0};
+	int RCon[10][4]; RCon[0][0] = 1; RCon[0][1] = 0; RCon[0][2] = 0; RCon[0][3] = 0; 
 	for(int i=1; i<10; i++){
 		RCon[i][0] = gal_mul(RCon[i-1][0], 2);
 		for(int j=1; j<4; j++)RCon[i][j] = 0;
@@ -132,7 +152,7 @@ void generate_key(unsigned long long int key1, unsigned long long int key2, int 
 			for(int k=0; k<4; k++){
 				int col = Key[i][j][k] & 15;
 				int row = (Key[i][j][k] >> 4) & 15;
-				state_array[i][j] = S_box[row][col];
+				Key[i][j][k] = S_box[row][col];
 		}
 
 		for(int j=0; j<4; j++)Key[i][j][0] = Key[i][j][0] ^ RCon[i-1][j];
@@ -147,9 +167,13 @@ int main(){
 	FILE* f;
 
 	f = fopen("S_box.txt", "r");
-	for(int i=0; i<16; i++)
-		for(int j=0; i<16; j++)
+	for(int i=0; i<16; i++){
+		for(int j=0; j<16; j++){
 			fscanf(f, "%x", &S_box[i][j]);
+			printf("%x ", S_box[i][j]);
+		}
+		printf("\n");
+	}
 	fclose(f);
 
 	unsigned long long int key1, key2;
@@ -175,3 +199,8 @@ int main(){
 
 	return 0;
 }
+
+/*
+2475a2b334755688 31e2120013aa5487
+0004121412041200 0c00131108231919
+*/
