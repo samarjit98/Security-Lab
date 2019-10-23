@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int S_box[16][16];
+int Inv_S_box[16][16], S_box[16][16];
 
 void add_round_key(int state_array[4][4], int key[4][4]){
 	for(int i=0; i<4; i++)
@@ -15,21 +15,21 @@ void substitute_bytes(int state_array[4][4]){
 		for(int j=0; j<4; j++){
 			int col = state_array[i][j] & 15;
 			int row = (state_array[i][j] >> 4) & 15;
-			state_array[i][j] = S_box[row][col];
+			state_array[i][j] = Inv_S_box[row][col];
 		}
 }
 
-void left_shift(int *data, int n, int times){
+void right_shift(int *data, int n, int times){
 	for(int j=0; j<times; j++){
-		int tmp=data[0];
-		for(int i=0; i<n-1; i++)data[i] = data[i+1];
-		data[n-1]=tmp;
+		int tmp=data[n-1];
+		for(int i=n-1; i>0; i--)data[i] = data[i-1];
+		data[0]=tmp;
 	}
 }
 
 void shift_rows(int state_array[4][4]){
 	for(int i=0; i<4; i++){
-		left_shift(state_array[i], 4, i);
+		right_shift(state_array[i], 4, i);
 	}
 }
 
@@ -46,7 +46,7 @@ int gal_mul(int a, int b){
 }
 
 void mix_columns(int state_array[4][4]){
-	int field_mat[4][4] = { {2, 3, 1, 1}, {1, 2, 3, 1}, {1, 1, 2, 3}, {3, 1, 1, 2} };
+	int field_mat[4][4] = { {0x0e, 0x0b, 0x0d, 0x09}, {0x09, 0x0e, 0x0b, 0x0d}, {0x0d, 0x09, 0x0e, 0x0b}, {0x0b, 0x0d, 0x09, 0x0e} };
 	int state_cpy[4][4];
 	for(int i=0; i<4; i++)
 		for(int j=0; j<4; j++){
@@ -62,19 +62,12 @@ void mix_columns(int state_array[4][4]){
 			state_array[i][j] = state_cpy[i][j];
 }
 
-void encrypt(int state_array[4][4], int Key[11][4][4]){
-	add_round_key(state_array, Key[0]);
+void decrypt(int state_array[4][4], int Key[11][4][4]){
+	add_round_key(state_array, Key[10]);
 
 	for(int i=0; i<10; i++){
 		printf("Round: %d\n", i);
 		printf("Input:\n");
-		for(int j=0; j<4; j++){
-			for(int k=0; k<4; k++)
-				printf("%x ", state_array[j][k]);
-			printf("\n");
-		}
-		substitute_bytes(state_array);
-		printf("Sub bytes:\n");
 		for(int j=0; j<4; j++){
 			for(int k=0; k<4; k++)
 				printf("%x ", state_array[j][k]);
@@ -87,6 +80,14 @@ void encrypt(int state_array[4][4], int Key[11][4][4]){
 				printf("%x ", state_array[j][k]);
 			printf("\n");
 		}
+		substitute_bytes(state_array);
+		printf("Sub bytes:\n");
+		for(int j=0; j<4; j++){
+			for(int k=0; k<4; k++)
+				printf("%x ", state_array[j][k]);
+			printf("\n");
+		}
+		add_round_key(state_array, Key[10 - (i+1)]);
 		if(i<9){
 			mix_columns(state_array);
 			printf("Mix columns:\n");
@@ -96,7 +97,6 @@ void encrypt(int state_array[4][4], int Key[11][4][4]){
 				printf("\n");
 			}
 		}
-		add_round_key(state_array, Key[i+1]);
 		printf("Output:\n");
 		for(int j=0; j<4; j++){
 			for(int k=0; k<4; k++)
@@ -210,34 +210,41 @@ int main(){
 	}
 	fclose(f);
 
+	f = fopen("Inv_S_box.txt", "r");
+	for(int i=0; i<16; i++){
+		for(int j=0; j<16; j++){
+			fscanf(f, "%x", &Inv_S_box[i][j]);
+			printf("%x ", Inv_S_box[i][j]);
+		}
+		printf("\n");
+	}
+	fclose(f);
+
 	unsigned long long int key1, key2;
 	printf("Enter key (64 bits - 64 bits): ");
 	scanf("%llx", &key1); scanf("%llx", &key2);
 
-	unsigned long long int ip1, ip2;
-	printf("Enter plaintext (64 bits - 64 bits): ");
-	scanf("%llx", &ip1); scanf("%llx", &ip2);
-
 	int state_array[4][4], Key[11][4][4];
-	convert_to_state_array(ip1, ip2, state_array);
-	generate_key(key1, key2, Key);
-	encrypt(state_array, Key);
+	f = fopen("ciphertext.txt", "r");
+	for(int i=0; i<4; i++){
+		for(int j=0; j<4; j++){
+			fscanf(f, "%x", &state_array[i][j]);
+			printf("%x ", state_array[i][j]);
+		}
+		printf("\n");
+	}
+	fclose(f);
 
-	printf("Ciphertext: ");
+	generate_key(key1, key2, Key);
+	decrypt(state_array, Key);
+
+	printf("Plaintext: ");
 	for(int i=0; i<4; i++){
 		for(int j=0; j<4; j++)
 			printf("%x ", state_array[i][j]);
 		printf("\n");
 	}
 	printf("\n");
-
-	f = fopen("ciphertext.txt", "w");
-	for(int i=0; i<4; i++){
-		for(int j=0; j<4; j++)
-			fprintf(f, "%x ", state_array[i][j]);
-		fprintf(f, "\n");
-	}
-	fclose(f);
 
 	return 0;
 }
