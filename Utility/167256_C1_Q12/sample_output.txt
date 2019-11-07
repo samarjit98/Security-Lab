@@ -1,0 +1,22 @@
+c167256@selab168:~/Security-Lab/ElGamal$ ./encrypt 
+548632545238654658757685
+c167256@selab168:~/Security-Lab/ElGamal$ ./decrypt 
+548632545238654658757685
+
+
+c167256@selab168:~/Security-Lab/ElGamal$ ./encrypt 
+5486325452346563254564423567242357658
+c167256@selab168:~/Security-Lab/ElGamal$ ./decrypt 
+5486325452346563254564423567242357658
+
+
+c167256@selab168:~/Security-Lab/ElGamal$ ./encrypt 
+435236678432
+c167256@selab168:~/Security-Lab/ElGamal$ ./decrypt 
+435236678432
+
+
+c167256@selab168:~/Security-Lab/ElGamal$ ./encrypt 
+635782136512564354213245314232
+c167256@selab168:~/Security-Lab/ElGamal$ ./decrypt 
+635782136512564354213245314232
