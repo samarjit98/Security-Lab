@@ -1,0 +1,44 @@
+➜  ECC git:(master) ✗ ./generate_key
+257 0 -4
+2
+2
+101
+➜  ECC git:(master) ✗ ./ecc_encrypt 
+257 0 -4
+112
+26
+41
+➜  ECC git:(master) ✗ ./ecc_decrypt 
+257 0 -4
+112
+26
+
+➜  ECC git:(master) ✗ ./generate_key
+257 0 -4
+2
+2
+101
+➜  ECC git:(master) ✗ ./ecc_encrypt 
+257 0 -4
+56
+34
+121
+➜  ECC git:(master) ✗ ./ecc_decrypt 
+257 0 -4
+56
+34
+
+➜  ECC git:(master) ✗ ./generate_key
+257 0 -4
+2  
+2
+112
+➜  ECC git:(master) ✗ ./ecc_encrypt 
+257 0 -4
+116
+9
+67
+➜  ECC git:(master) ✗ ./ecc_decrypt 
+257 0 -4
+116
+9
